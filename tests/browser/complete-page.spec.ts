@@ -70,7 +70,7 @@ test('Community exploration and support expose honest availability and restore f
  await page.getByRole('button',{name:'Got it',exact:true}).click();
  await expect(contact).toBeFocused();
  await page.locator('#download .button-primary').click();
- await expect(dialog).toContainText('Available now');
+ await expect(dialog).toContainText('Invitation only');
  await page.keyboard.press('Escape');
  await expect(page.locator('#download .button-primary')).toBeFocused();
 });

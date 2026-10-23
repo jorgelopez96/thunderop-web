@@ -5,16 +5,12 @@
 	const i18n = getI18n();
 	const t = $derived(i18n.text);
 	let { onDownload }: { onDownload: () => void } = $props();
-	// La mascota acompaña el scroll de la portada (--s va de 0 a 1, lo usa app.css) y salta con un giro al tocarla.
-	let hero: HTMLElement;
+	// La mascota rebota en su lugar (app.css) y salta con un giro al tocarla.
 	let salta = $state(false);
-	function alScroll() { hero?.style.setProperty('--s', String(Math.min(1, Math.max(0, scrollY / (hero?.offsetHeight || 1))))); }
 	function saltar() { salta = false; requestAnimationFrame(() => (salta = true)); }
 </script>
 
-<svelte:window onscroll={alScroll} />
-
-<section class="hero" id="home" aria-labelledby="hero-title" bind:this={hero}>
+<section class="hero" id="home" aria-labelledby="hero-title">
 	<div class="hero-aurora" aria-hidden="true"></div>
 	<div class="hero-grid" aria-hidden="true"></div>
 	<div class="hero-inner container">

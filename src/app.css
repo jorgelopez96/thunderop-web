@@ -66,7 +66,7 @@ main:focus { outline: none; }
 .button-primary:hover { box-shadow: 0 5px 30px #6c2cff70, 0 0 20px #0789ff2b; }
 .button-secondary { color: #f3edff; border: 1px solid #7775c85c; background: linear-gradient(140deg, #2b20574d, #141a3040); box-shadow: inset 0 1px 0 #ffffff09; }
 .button-secondary:hover { border-color: #a090ef; }
-.header-download { min-height: 44px; padding: 10px 15px; font-size: 12px; border-radius: 9px; white-space: nowrap; }
+.header-download, .header-login { min-height: 44px; padding: 10px 15px; font-size: 12px; border-radius: 9px; white-space: nowrap; }
 .menu-toggle { display: none; justify-content: center; align-items: center; width: 44px; height: 44px; flex-shrink: 0; background: transparent; padding: 9px; border: 1px solid #7771ad3b; border-radius: 9px; }
 
 /* Normal-flow columns keep the illustration out of the text at intermediate widths. */
@@ -92,13 +92,12 @@ h1 { margin: 24px 0 0; font-size: clamp(2.8rem, 4.8vw, 4.6rem); font-weight: 700
 .hero-benefits li > span { display: grid; place-items: center; flex-shrink: 0; width: 15px; height: 15px; background: #1834555c; border: 1px solid #4267a34d; border-radius: 50%; color: #77b9ff; }
 
 /* Percentage positions share a single responsive canvas; no negative content offsets. */
-.hero-mascot { position: absolute; z-index: 4; width: 74%; max-width: none; height: auto; aspect-ratio: 1; object-fit: contain; left: 0; bottom: 10%; filter: drop-shadow(0 0 25px #5827c638); animation: mascot-float 7s ease-in-out infinite;
+.hero-mascot { position: absolute; z-index: 4; width: 74%; max-width: none; height: auto; aspect-ratio: 1; object-fit: contain; left: 0; bottom: 10%; filter: drop-shadow(0 0 25px #5827c638); animation: mascot-float 1.8s infinite;
 	padding: 0; border: 0; background: none; cursor: pointer;
-	/* Con el scroll (--s, Hero.svelte) sube, se inclina y se achica; se suma al flotar porque usa translate/rotate/scale y no transform. */
-	translate: 0 calc(var(--s, 0) * -90px); rotate: calc(var(--s, 0) * -16deg); scale: calc(1 - var(--s, 0) * .18); }
+}
 .hero-mascot img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .hero-mascot.salta { animation: mascot-jump .9s cubic-bezier(.3, 1.4, .5, 1); }
-@media (prefers-reduced-motion: reduce) { .hero-mascot { translate: none; rotate: none; scale: none; } .hero-mascot.salta { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-mascot.salta { animation: none; } }
 .mini-wave { flex-shrink: 0; color: #b58aff; margin-left: 2px; letter-spacing: 1px; }
 .hero-scroll { position: absolute; bottom: 28px; left: 0; display: flex; min-height: 44px; gap: 10px; align-items: center; color: #9697b0; font-size: 11px; letter-spacing: .02em; }
 .scroll-line { width: 30px; height: 1px; background: linear-gradient(90deg, #9455fd, #4666e4); }
@@ -117,7 +116,8 @@ h1 { margin: 24px 0 0; font-size: clamp(2.8rem, 4.8vw, 4.6rem); font-weight: 700
 .download-dialog p { color: #b3b0cb; font-size: 15px; line-height: 1.8; margin-bottom: 26px; }
 .download-dialog .button { width: 100%; }
 
-@keyframes mascot-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+/* Rebote suave en el lugar: sube frenando y cae acelerando. */
+@keyframes mascot-float { 0%, 100% { transform: translateY(0); animation-timing-function: cubic-bezier(.25, .6, .45, 1); } 50% { transform: translateY(-16px); animation-timing-function: cubic-bezier(.55, 0, .75, .4); } }
 @keyframes mascot-jump { 0% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-60px) rotate(-200deg) scale(1.08); } 75% { transform: translateY(6px) rotate(-360deg) scale(.96); } 100% { transform: translateY(0) rotate(-360deg); } }
 
 @media (max-width: 1250px) {
@@ -182,11 +182,12 @@ h1 { margin: 24px 0 0; font-size: clamp(2.8rem, 4.8vw, 4.6rem); font-weight: 700
 
 /* Portada: la ventana de Thunderop y, adelante, la mascota grande apoyada abajo a la izquierda. */
 .hero-art { position: relative; min-width: 0; width: 100%; padding: 0 0 20% 27%; }
-.preview-position { position: relative; z-index: 3; width: 100%; }
-.hero-art .hero-mascot { left: -7%; bottom: -3%; width: 47%; }
+/* La ventana en diagonal hacia adentro (el lado derecho se aleja), como la portada original. */
+.preview-position { position: relative; z-index: 3; width: 100%; transform: perspective(1100px) rotateY(-17deg) rotateZ(3deg); filter: drop-shadow(0 20px 28px #020313aa) drop-shadow(0 0 16px #5143e32a); }
+.hero-art .hero-mascot { left: -9%; bottom: -6%; width: 57%; }
 @media (min-width: 1101px) { .hero-inner { grid-template-columns: minmax(0, .9fr) minmax(0, 1.2fr); gap: 48px; } }
-@media (max-width: 1100px) { .hero-art { width: min(100%, 700px); padding-left: 30%; } .hero-art .hero-mascot { left: 0; } }
-@media (max-width: 600px) { .hero-art { padding: 0 0 26% 22%; } .hero-art .hero-mascot { left: 0; bottom: -2%; width: 46%; } }
+@media (max-width: 1100px) { .hero-art { width: min(100%, 700px); padding-left: 30%; } .hero-art .hero-mascot { left: 0; width: 52%; } .preview-position { transform: perspective(900px) rotateY(-12deg) rotateZ(2deg); } }
+@media (max-width: 600px) { .hero-art { padding: 0 0 30% 22%; } .hero-art .hero-mascot { left: 0; bottom: -2%; width: 52%; } }
 
 /* Shared visual language for the remaining landing-page sections. */
 .section-kicker{display:inline-flex;align-items:center;max-width:100%;padding:7px 11px;border:1px solid #8650dc66;border-radius:100px;background:#5927951a;color:#c19bff;font-size:10px;font-weight:750;letter-spacing:.14em;line-height:1.6;text-transform:uppercase;box-shadow:0 0 16px #7334da14}

@@ -9,7 +9,7 @@
 	const i18n = getI18n();
 	const t = $derived(i18n.text);
 	const labels = $derived(pageMessages[i18n.locale].nav);
-	let { onDownload }: { onDownload: () => void } = $props();
+	let { onDownload, onLogin }: { onDownload: () => void; onLogin: () => void } = $props();
 	let menuOpen = $state(false);
 	let activeHash = $state('#home');
 	let menuButton: HTMLButtonElement;
@@ -49,6 +49,11 @@
 		if (menuOpen && event.target instanceof Node && !header.contains(event.target)) closeMenu();
 	}
 	function syncHash() { activeHash = window.location.hash || '#home'; }
+	async function loginFromMenu() {
+		closeMenu(true);
+		await tick();
+		onLogin();
+	}
 	async function downloadFromMenu() {
 		closeMenu(true);
 		await tick();
@@ -84,6 +89,7 @@
 				</a>
 			{/each}
 			<div class="mobile-menu-footer">
+				<button disabled={!i18n.ready} type="button" class="button button-secondary menu-login" onclick={loginFromMenu}>{t.nav.login}</button>
 				<button disabled={!i18n.ready} type="button" class="button button-primary menu-download" onclick={downloadFromMenu}>
 					<Icon name="windows" size={19} />{t.hero.download}<Icon name="down" size={17} />
 				</button>
@@ -92,6 +98,7 @@
 		</nav>
 		<div class="header-actions">
 			<LanguageSelector />
+			<button disabled={!i18n.ready} type="button" class="button button-secondary header-login" onclick={onLogin}>{t.nav.login}</button>
 			<button disabled={!i18n.ready} type="button" class="button button-primary header-download" onclick={onDownload}>
 				<Icon name="windows" size={18} />{t.hero.download}
 			</button>
@@ -103,7 +110,7 @@
 </header>
 
 <style>
-	.mobile-menu-intro, .mobile-menu-footer, .nav-icon, .nav-arrow, .nav-copy small { display: none; }
+	.mobile-menu-intro, .mobile-menu-footer, .menu-login, .nav-icon, .nav-arrow, .nav-copy small { display: none; }
 	.nav-copy { min-width: 0; }
 	.main-navigation > a[aria-current='location'] { color: #d9bfff; }
 	.menu-scrim { display: none; }
@@ -136,6 +143,8 @@
 		.nav-arrow { display: grid; place-items: center; flex-shrink: 0; color: #8d7baa; transition: transform .18s, color .18s; }
 		.nav-link:hover .nav-arrow, .nav-link[aria-current='location'] .nav-arrow { color: #c4a0f1; transform: translateX(2px); }
 		.main-navigation .help-start { border-top-color: #a283c71f; margin-top: 5px; }
+		.header-login { display: none; }
+		.main-navigation .menu-login { display: flex; width: 100%; min-height: 50px; justify-content: center; margin-bottom: 10px; font-size: 13px; border-radius: 11px; }
 		.mobile-menu-footer { display: block; border-top: 1px solid #a283c72b; padding: 17px 7px 3px; margin-top: 10px; }
 		.main-navigation .menu-download { width: 100%; min-height: 50px; justify-content: center; gap: 10px; padding: 12px 14px; color: white; font-size: 13px; border-radius: 11px; border: 1px solid #ae75ff; border-right-color: #48c7ff; background: linear-gradient(105deg, #9228ef, #6329f8 48%, #087aff); }
 		.menu-download > :global(svg:last-child) { margin-left: auto; }

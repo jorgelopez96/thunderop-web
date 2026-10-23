@@ -33,13 +33,20 @@ test('A manual language choice updates all visible text and survives reload', as
 	await expect(page.getByRole('combobox')).toHaveValue('en');
 });
 
-test('Download dialog links the real installer and closes with Escape', async ({ page }) => {
+test('Download asks for the invitation code and closes with Escape', async ({ page }) => {
 	await page.goto('/');
 	await page.getByRole('combobox').selectOption('en');
 	await page.locator('.hero-actions').getByRole('button', { name: 'Download for Windows' }).click();
 	await expect(page.getByRole('dialog')).toBeVisible();
-	await expect(page.getByRole('dialog')).toContainText('Available now');
-	await expect(page.getByRole('link', { name: 'Download installer' })).toHaveAttribute('href', 'https://thunderop.duckdns.org/descargas/thunderop-setup.exe');
+	await expect(page.getByRole('dialog')).toContainText('Invitation only');
+	// El link del instalador no está en la página: lo da el servidor solo con el código correcto.
+	expect(await page.content()).not.toContain('thunderop-setup.exe');
+	await page.getByLabel('Invitation code').fill('cualquiera');
+	await page.getByRole('button', { name: 'Download installer' }).click();
+	await expect(page.getByRole('alert')).toContainText('That code is not right');
+	const ok = await page.request.post('/descargar', { data: { codigo: 'Tunderopi' } });
+	expect((await ok.json()).url).toBe('https://thunderop.duckdns.org/descargas/thunderop-setup.exe');
+	expect((await page.request.post('/descargar', { data: { codigo: 'tunderopi' } })).status()).toBe(401);
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).not.toBeVisible();
 	await expect(page.locator('.hero-actions').getByRole('button')).toBeFocused();
@@ -67,4 +74,14 @@ test('Server fallback and stored preference follow the language priority', async
 	expect(await unsupported.text()).toContain('<html lang="en">');
 	const preferred = await request.get('/', { headers: { 'Accept-Language': 'en-US', Cookie: 'thunderop_locale=es' } });
 	expect(await preferred.text()).toContain('<html lang="es">');
+});
+
+test('Log in opens a coming-soon dialog', async ({ page }) => {
+	await page.goto('/');
+	await page.getByRole('combobox').selectOption('es');
+	await page.locator('.header-actions').getByRole('button', { name: 'Iniciar sesión' }).click();
+	await expect(page.getByRole('dialog')).toContainText('Próximamente');
+	await expect(page.getByRole('dialog')).toContainText('navegador');
+	await page.keyboard.press('Escape');
+	await expect(page.getByRole('dialog')).not.toBeVisible();
 });

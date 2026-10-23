@@ -23,7 +23,7 @@ test('Mobile menu supports focus, backdrop dismissal, section selection and down
  await opener.click();
  await expect(nav.getByRole('link',{name:'Comunidades',exact:true})).toHaveAttribute('aria-current','location');
  await nav.getByRole('button',{name:'Descargar para Windows',exact:true}).click();
- await expect(page.getByRole('dialog')).toContainText('Disponible');
+ await expect(page.getByRole('dialog')).toContainText('Solo con invitación');
  await page.keyboard.press('Escape');
  await expect(opener).toBeFocused();
  await opener.click();
@@ -48,7 +48,8 @@ test('Keyboard can enter and leave the menu, and language changes translate it w
  await page.getByRole('combobox').selectOption('en');
  await expect(page.locator('.menu-kicker')).toHaveText('Explore Thunderop');
  await expect(links.first()).toHaveAccessibleName('The experience');
- await expect(page.locator('.mobile-menu-footer button')).toHaveText('Download for Windows');
+ await expect(page.locator('.mobile-menu-footer .menu-download')).toHaveText('Download for Windows');
+ await expect(page.locator('.mobile-menu-footer .menu-login')).toHaveText('Log in');
  await page.locator('.hero-actions button').focus();
  await expect(page.locator('#main-navigation')).not.toBeVisible();
 });

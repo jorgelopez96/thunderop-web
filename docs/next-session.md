@@ -62,3 +62,11 @@ Abrir http://localhost:5173. Si el servidor ya está activo, usarlo sin iniciar 
 - Objetos 3D hacia los costados para no pasar detrás del texto; en pantallas chicas, la mitad y más chicos.
 - Prueba responsive adaptada: la mascota puede pisar la ventana pero no tapar más del 25 %; la ventana mantiene proporción de escritorio. 50 pruebas aprobadas.
 - Mascota 3D que recorre la página: postergada (requiere un modelo .glb).
+
+## Actualización 22 de octubre de 2026 (cierre)
+
+- Botón "Iniciar sesión" (cartel "Próximamente": Thunderop en el navegador).
+- Descarga con código de invitación validado en el servidor (POST /descargar, hash en src/lib/server/descarga.ts). El instalador sigue en una URL pública del servidor de Thunderop (la usa el actualizador); cerrarlo del todo queda para después.
+- Mascota de la portada más grande (57 %), con rebote suave en el lugar; se quitó el movimiento atado al scroll. Al tocarla sigue saltando con un giro.
+- La ventana de ejemplo volvió a ir en diagonal hacia adentro (perspective + rotateY -17°, más suave en pantallas medianas), con el diseño actual de la app.
+- 51 pruebas aprobadas. Sin subir a GitHub todavía.

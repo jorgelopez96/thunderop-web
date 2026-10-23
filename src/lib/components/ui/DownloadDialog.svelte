@@ -1,12 +1,28 @@
 <script lang="ts">
 	import { getI18n } from '#lib/i18n/context.svelte.js';
 	import Icon from './Icon.svelte';
-	import { site } from '#lib/config/site.js';
 	const i18n = getI18n();
 	const t = $derived(i18n.text);
 	let dialog: HTMLDialogElement;
-	export function open() { dialog?.showModal(); }
+	let codigo = $state('');
+	let error = $state('');
+	let revisando = $state(false);
+	export function open() { error = ''; dialog?.showModal(); }
 	function close() { dialog?.close(); }
+	// El código lo revisa el servidor de la página (/descargar); solo si es correcto devuelve el link del instalador.
+	async function descargar(e: SubmitEvent) {
+		e.preventDefault();
+		error = ''; revisando = true;
+		try {
+			const r = await fetch('/descargar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ codigo }) });
+			if (r.status === 401) { error = t.download.wrong; return; }
+			const { url } = await r.json();
+			if (!r.ok || typeof url !== 'string') { error = t.download.failed; return; }
+			window.location.href = url;
+			close();
+		} catch { error = t.download.failed; }
+		finally { revisando = false; }
+	}
 </script>
 
 <dialog bind:this={dialog} class="download-dialog" aria-labelledby="download-title">
@@ -15,5 +31,19 @@
 	<span class="eyebrow"><span class="status-dot"></span>{t.download.status}</span>
 	<h2 id="download-title">{t.download.title}</h2>
 	<p>{t.download.body}</p>
-	<a class="button button-primary" href={site.downloadUrl} download onclick={close}>{t.download.close}<Icon name="arrow" size={18} /></a>
+	<form class="download-code" onsubmit={descargar}>
+		<label for="download-code">{t.download.code}</label>
+		<input id="download-code" type="password" autocomplete="off" required maxlength="100" bind:value={codigo} aria-invalid={!!error} aria-describedby="download-error" />
+		<p id="download-error" class="download-error" role="alert">{error}</p>
+		<button type="submit" class="button button-primary" disabled={revisando}>{revisando ? t.download.checking : t.download.close}<Icon name="arrow" size={18} /></button>
+	</form>
 </dialog>
+
+<style>
+	.download-code { display: grid; gap: 8px; width: 100%; text-align: left; }
+	.download-code label { font-size: 13px; font-weight: 650; color: #d9d2f2; }
+	.download-code input { min-height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid #7a62c766; background: #0d0e22; color: #fff; font: inherit; font-size: 16px; }
+	.download-code input:focus-visible { outline: 2px solid #8c43ff; outline-offset: 1px; }
+	.download-error { min-height: 1.4em; margin: 0; color: #ff8fa3; font-size: 13px; }
+	.download-error:empty { min-height: 0; }
+</style>
