@@ -10,7 +10,7 @@
         "prepare": "svelte-kit sync",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-        "test": "node --experimental-strip-types --test tests/locale.test.ts",
+        "test": "node --experimental-strip-types --test tests/locale.test.ts tests/privacidad.test.ts",
         "test:e2e": "playwright test"
     },
     "devDependencies": {
@@ -36,6 +36,7 @@
     "dependencies": {
         "@fontsource-variable/manrope": "^5.3.0",
         "@fontsource-variable/space-grotesk": "^5.3.0",
+        "pocketbase": "^0.28.1",
         "three": "^0.180.0"
     }
 }

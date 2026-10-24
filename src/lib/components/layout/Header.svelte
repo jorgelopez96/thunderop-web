@@ -5,11 +5,15 @@
 	import Brand from '#lib/components/ui/Brand.svelte';
 	import Icon from '#lib/components/ui/Icon.svelte';
 	import LanguageSelector from '#lib/components/ui/LanguageSelector.svelte';
+	import { sesion } from '#lib/cuenta.svelte.js';
 
 	const i18n = getI18n();
 	const t = $derived(i18n.text);
 	const labels = $derived(pageMessages[i18n.locale].nav);
-	let { onDownload, onLogin }: { onDownload: () => void; onLogin: () => void } = $props();
+	let { onDownload }: { onDownload: () => void } = $props();
+	// La sesión vive en el navegador: hasta montar, el link es el de entrar (igual que lo renderiza el servidor).
+	const conSesion = $derived(i18n.ready && !!sesion.usuario);
+	const login = $derived(conSesion ? { href: '/cuenta', texto: t.nav.account } : { href: '/entrar', texto: t.nav.login });
 	let menuOpen = $state(false);
 	let activeHash = $state('#home');
 	let menuButton: HTMLButtonElement;
@@ -49,11 +53,6 @@
 		if (menuOpen && event.target instanceof Node && !header.contains(event.target)) closeMenu();
 	}
 	function syncHash() { activeHash = window.location.hash || '#home'; }
-	async function loginFromMenu() {
-		closeMenu(true);
-		await tick();
-		onLogin();
-	}
 	async function downloadFromMenu() {
 		closeMenu(true);
 		await tick();
@@ -89,7 +88,7 @@
 				</a>
 			{/each}
 			<div class="mobile-menu-footer">
-				<button disabled={!i18n.ready} type="button" class="button button-secondary menu-login" onclick={loginFromMenu}>{t.nav.login}</button>
+				<a class="button button-secondary menu-login" href={login.href}>{login.texto}</a>
 				<button disabled={!i18n.ready} type="button" class="button button-primary menu-download" onclick={downloadFromMenu}>
 					<Icon name="windows" size={19} />{t.hero.download}<Icon name="down" size={17} />
 				</button>
@@ -98,7 +97,7 @@
 		</nav>
 		<div class="header-actions">
 			<LanguageSelector />
-			<button disabled={!i18n.ready} type="button" class="button button-secondary header-login" onclick={onLogin}>{t.nav.login}</button>
+			<a class="button button-secondary header-login" href={login.href}>{login.texto}</a>
 			<button disabled={!i18n.ready} type="button" class="button button-primary header-download" onclick={onDownload}>
 				<Icon name="windows" size={18} />{t.hero.download}
 			</button>

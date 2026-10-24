@@ -15,7 +15,6 @@
  const i18n=getI18n();
  const t=$derived(pageMessages[i18n.locale]);
  let downloadDialog:DownloadDialog;
- let loginDialog:InfoDialog;
  let infoDialog:InfoDialog;
  let selected=$state<CommunityKey|null>(null);
  const infoTitle=$derived(selected?t.communities.cards[selected].title:t.help.contactTitle);
@@ -26,7 +25,7 @@
  async function openContact(){selected=null;await tick();infoDialog?.open()}
 </script>
 <FloatingScene/>
-<Header onDownload={openDownload} onLogin={() => loginDialog?.open()}/>
+<Header onDownload={openDownload}/>
 <main id="main" tabindex="-1">
  <Hero onDownload={openDownload}/>
  <Features/>
@@ -36,5 +35,4 @@
 </main>
 <Footer/>
 <DownloadDialog bind:this={downloadDialog}/>
-<InfoDialog bind:this={loginDialog} title={i18n.text.login.title} eyebrow={i18n.text.login.status} body={i18n.text.login.body}/>
 <InfoDialog bind:this={infoDialog} title={infoTitle} eyebrow={infoStatus} body={infoBody}/>

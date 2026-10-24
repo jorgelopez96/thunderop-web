@@ -70,3 +70,11 @@ Abrir http://localhost:5173. Si el servidor ya está activo, usarlo sin iniciar 
 - Mascota de la portada más grande (57 %), con rebote suave en el lugar; se quitó el movimiento atado al scroll. Al tocarla sigue saltando con un giro.
 - La ventana de ejemplo volvió a ir en diagonal hacia adentro (perspective + rotateY -17°, más suave en pantallas medianas), con el diseño actual de la app.
 - 51 pruebas aprobadas. Sin subir a GitHub todavía.
+
+## Actualización 24 de octubre de 2026 (rama cuentas-login, sin push)
+
+- Cuentas con PocketBase (`PUBLIC_PB_URL`, definida en `src/env.ts`; local en `.env`, falta cargarla en Vercel o el build falla): /entrar, /crear-cuenta, /verificar, /olvide, /completar, /cuenta. Reglas copiadas de la app (`src/lib/reglasCuenta.ts`).
+- "Iniciar sesión" lleva a /entrar; con sesión dice "Mi cuenta" y va a /cuenta. Se quitó el cartel "Próximamente".
+- /terminos y /privacidad: borrador versión 1 (23/10/2026), es/en, con aviso de revisión legal.
+- Descarga: el navegador manda el código (o la sesión de una cuenta completa) a `POST /api/descarga/validar` de PocketBase, que devuelve el link del instalador. Ya no existe la ruta /descargar ni el hash; el link no está en el HTML ni en el código de la página.
+- Pruebas: corren en el puerto 5174 con `PUBLIC_PB_URL` apuntando a una dirección vacía; cada prueba responde las llamadas a PocketBase con page.route. 58 aprobadas.

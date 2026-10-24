@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { getI18n } from '#lib/i18n/context.svelte.js';
 	import Icon from './Icon.svelte';
+	import { ClientResponseError } from 'pocketbase';
+	import { pedirDescarga } from '#lib/cuenta.svelte.js';
 	const i18n = getI18n();
 	const t = $derived(i18n.text);
 	let dialog: HTMLDialogElement;
@@ -9,18 +11,17 @@
 	let revisando = $state(false);
 	export function open() { error = ''; dialog?.showModal(); }
 	function close() { dialog?.close(); }
-	// El código lo revisa el servidor de la página (/descargar); solo si es correcto devuelve el link del instalador.
+	// El código lo revisa el servidor de Thunderop; solo si es correcto devuelve el link del instalador.
 	async function descargar(e: SubmitEvent) {
 		e.preventDefault();
 		error = ''; revisando = true;
 		try {
-			const r = await fetch('/descargar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ codigo }) });
-			if (r.status === 401) { error = t.download.wrong; return; }
-			const { url } = await r.json();
-			if (!r.ok || typeof url !== 'string') { error = t.download.failed; return; }
-			window.location.href = url;
+			window.location.href = await pedirDescarga(codigo);
 			close();
-		} catch { error = t.download.failed; }
+		} catch (e) {
+			const status = e instanceof ClientResponseError ? e.status : 0;
+			error = status === 401 ? t.download.wrong : status === 429 ? t.download.tooMany : t.download.failed;
+		}
 		finally { revisando = false; }
 	}
 </script>

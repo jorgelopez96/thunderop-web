@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { PB_PRUEBA } from '../../playwright.config';
 
 test('Spanish is rendered on the server from the browser language', async ({ browser }) => {
 	const context = await browser.newContext({ locale: 'es-AR', viewport: { width: 1440, height: 1000 } });
@@ -34,6 +35,11 @@ test('A manual language choice updates all visible text and survives reload', as
 });
 
 test('Download asks for the invitation code and closes with Escape', async ({ page }) => {
+	// El código lo valida PocketBase desde el navegador: primero un código incorrecto (401), después demasiados intentos (429).
+	const respuestas = [401, 429];
+	await page.route(PB_PRUEBA + '/api/descarga/validar', (route) => route.request().method() === 'OPTIONS'
+		? route.fulfill({ status: 204, headers: { 'access-control-allow-origin': '*', 'access-control-allow-headers': '*' } })
+		: route.fulfill({ status: respuestas.shift()!, headers: { 'access-control-allow-origin': '*' }, contentType: 'application/json', body: '{}' }));
 	await page.goto('/');
 	await page.getByRole('combobox').selectOption('en');
 	await page.locator('.hero-actions').getByRole('button', { name: 'Download for Windows' }).click();
@@ -44,9 +50,8 @@ test('Download asks for the invitation code and closes with Escape', async ({ pa
 	await page.getByLabel('Invitation code').fill('cualquiera');
 	await page.getByRole('button', { name: 'Download installer' }).click();
 	await expect(page.getByRole('alert')).toContainText('That code is not right');
-	const ok = await page.request.post('/descargar', { data: { codigo: 'Tunderopi' } });
-	expect((await ok.json()).url).toBe('https://thunderop.duckdns.org/descargas/thunderop-setup.exe');
-	expect((await page.request.post('/descargar', { data: { codigo: 'tunderopi' } })).status()).toBe(401);
+	await page.getByRole('button', { name: 'Download installer' }).click();
+	await expect(page.getByRole('alert')).toContainText('Too many attempts, wait a minute.');
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).not.toBeVisible();
 	await expect(page.locator('.hero-actions').getByRole('button')).toBeFocused();
@@ -76,12 +81,10 @@ test('Server fallback and stored preference follow the language priority', async
 	expect(await preferred.text()).toContain('<html lang="es">');
 });
 
-test('Log in opens a coming-soon dialog', async ({ page }) => {
+test('Log in goes to the sign-in page', async ({ page }) => {
 	await page.goto('/');
 	await page.getByRole('combobox').selectOption('es');
-	await page.locator('.header-actions').getByRole('button', { name: 'Iniciar sesión' }).click();
-	await expect(page.getByRole('dialog')).toContainText('Próximamente');
-	await expect(page.getByRole('dialog')).toContainText('navegador');
-	await page.keyboard.press('Escape');
-	await expect(page.getByRole('dialog')).not.toBeVisible();
+	await page.locator('.header-actions').getByRole('link', { name: 'Iniciar sesión' }).click();
+	await expect(page).toHaveURL(/\/entrar$/);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Entrar a Thunderop');
 });

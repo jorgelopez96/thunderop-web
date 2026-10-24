@@ -4,13 +4,14 @@
     import '../app.css';
 	import { onMount, untrack } from 'svelte';
 	import { I18n, setI18n } from '#lib/i18n/context.svelte.js';
+	import { validarSesionAlIniciar } from '#lib/cuenta.svelte.js';
 	import type { LayoutProps } from './$types';
 
 	let { data, children }: LayoutProps = $props();
 	// Capture the initial server preference; subsequent changes belong to the visitor.
 	const i18n = setI18n(new I18n(untrack(() => data.locale)));
 	const t = $derived(i18n.text);
-    onMount(() => { i18n.ready = true; });
+    onMount(() => { i18n.ready = true; void validarSesionAlIniciar(); });
 </script>
 
 <svelte:head>

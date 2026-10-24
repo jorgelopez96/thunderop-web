@@ -2,7 +2,7 @@ import type { Locale } from './locales.js';
 
 const en = {
 	meta: { title: 'Thunderop — Good chats. Brighter connections.', description: 'Your people, one place. Discover Thunderop: voice, video, screen sharing and communities for the moments you share.' },
-	nav: { label: 'Main navigation', home: 'Home', experience: 'The experience', windows: 'For Windows', menu: 'Open navigation', close: 'Close navigation', skip: 'Skip to content', login: 'Log in' },
+	nav: { label: 'Main navigation', home: 'Home', experience: 'The experience', windows: 'For Windows', menu: 'Open navigation', close: 'Close navigation', skip: 'Skip to content', login: 'Log in', account: 'My account' },
 	language: { label: 'Choose your language', es: 'Español', en: 'English' },
 	hero: {
 		eyebrow: 'CONNECT · PLAY · TOGETHER',
@@ -58,15 +58,11 @@ const en = {
 		sharing: 'Sharing a screen', live: 'LIVE', you: 'You', call: 'In good company',
 		voiceRooms: 'VOICE ROOMS', chats: 'CHATS', inVoice: 'in voice', empty: 'empty', participants: 'Participants', stop: 'Stop watching', watch: 'Watch', clips: 'clips'
 	},
-	login: {
-		status: 'Coming soon', title: 'Thunderop in your browser.',
-		body: 'Soon you will be able to log in and use Thunderop right from the browser, with no installation. In the meantime, the Windows app has it all.'
-	},
 	download: {
 		title: 'Thunderop for Windows.',
 		body: 'For now Thunderop is shared by invitation. Enter the code you were given to download the installer; after that it keeps itself up to date.',
 		status: 'Invitation only', close: 'Download installer', dismiss: 'Close download information',
-		code: 'Invitation code', checking: 'Checking…', wrong: 'That code is not right. Ask whoever invited you.', failed: 'Could not check the code. Try again.'
+		code: 'Invitation code', checking: 'Checking…', wrong: 'That code is not right. Ask whoever invited you.', failed: 'Could not check the code. Try again.', tooMany: 'Too many attempts, wait a minute.'
 	},
 	footer: 'Good chats. Brighter connections.'
 };
@@ -76,7 +72,7 @@ export type Messages = TranslationShape<typeof en>;
 
 const es: Messages = {
 	meta: { title: 'Thunderop — Buenas charlas. Mejores conexiones.', description: 'Tu gente, en un solo lugar. Descubrí Thunderop: voz, video, pantalla compartida y comunidades para compartir más momentos.' },
-	nav: { label: 'Navegación principal', home: 'Inicio', experience: 'La experiencia', windows: 'Para Windows', menu: 'Abrir navegación', close: 'Cerrar navegación', skip: 'Ir al contenido', login: 'Iniciar sesión' },
+	nav: { label: 'Navegación principal', home: 'Inicio', experience: 'La experiencia', windows: 'Para Windows', menu: 'Abrir navegación', close: 'Cerrar navegación', skip: 'Ir al contenido', login: 'Iniciar sesión', account: 'Mi cuenta' },
 	language: { label: 'Elegí tu idioma', es: 'Español', en: 'English' },
 	hero: {
 		eyebrow: 'CONECTÁ · JUGÁ · COMPARTÍ',
@@ -132,15 +128,11 @@ const es: Messages = {
 		sharing: 'Compartiendo pantalla', live: 'EN VIVO', you: 'Vos', call: 'En buena compañía',
 		voiceRooms: 'SALAS DE VOZ', chats: 'CHATS', inVoice: 'en voz', empty: 'vacía', participants: 'Participantes', stop: 'Dejar de ver', watch: 'Ver', clips: 'clips'
 	},
-	login: {
-		status: 'Próximamente', title: 'Thunderop en tu navegador.',
-		body: 'Muy pronto vas a poder iniciar sesión y usar Thunderop desde el navegador, sin instalar nada. Mientras tanto, la app para Windows ya tiene todo.'
-	},
 	download: {
 		title: 'Thunderop para Windows.',
 		body: 'Por ahora Thunderop se comparte por invitación. Ingresá el código que te pasaron para bajar el instalador; después se actualiza solo.',
 		status: 'Solo con invitación', close: 'Descargar instalador', dismiss: 'Cerrar información de descarga',
-		code: 'Código de invitación', checking: 'Revisando…', wrong: 'Ese código no es correcto. Pedíselo a quien te invitó.', failed: 'No se pudo revisar el código. Probá de nuevo.'
+		code: 'Código de invitación', checking: 'Revisando…', wrong: 'Ese código no es correcto. Pedíselo a quien te invitó.', failed: 'No se pudo revisar el código. Probá de nuevo.', tooMany: 'Demasiados intentos, esperá un minuto.'
 	},
 	footer: 'Buenas charlas. Mejores conexiones.'
 };

@@ -11,7 +11,7 @@ Sitio oficial de Thunderop con portada, funciones, presentación para Windows, c
 ## Ejecutar en Windows PowerShell
 
 ~~~powershell
-Set-Location -LiteralPath 'D:\Proyectos\Thunderop-Website'
+Set-Location -LiteralPath 'M:\THUNDEROP\Pagina web'
 npm.cmd run dev
 ~~~
 
