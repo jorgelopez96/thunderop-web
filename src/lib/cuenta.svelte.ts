@@ -73,12 +73,13 @@ export function linkSeguro(url: unknown): string {
 
 /** `ventana` la abre quien llama, en el mismo clic (si no, el navegador la bloquea). Si la cierran antes de terminar,
  *  se cancela el pedido y authWithOAuth2 rechaza con `isAbort` (sin esto, el SDK espera y termina en un error de conexión). */
-export async function entrarCon(proveedor: 'google' | 'microsoft', ventana: Window) {
+export async function entrarCon(proveedor: 'google' | 'microsoft', ventana: Window, recordar = true) {
 	const clave = `oauth-${Date.now()}`;
 	const vigilar = setInterval(() => { if (ventana.closed) pb.cancelRequest(clave); }, 500);
+	elegirRecordar(recordar);
 	try {
 		await pb.collection('users').authWithOAuth2({ provider: proveedor, requestKey: clave, urlCallback: (url) => { ventana.location.href = url; } });
-		anotar(true, '');
+		anotar(recordar, '');
 	} finally {
 		clearInterval(vigilar);
 		ventana.close();
@@ -86,8 +87,14 @@ export async function entrarCon(proveedor: 'google' | 'microsoft', ventana: Wind
 }
 
 // "Recordar mi cuenta": la contraseña nunca se guarda; persiste el token (dura 30 días).
-// Sin recordar, la bandera de sessionStorage marca que esta pestaña ya inició sesión: en otra pestaña o al reabrir el navegador no está y la sesión se descarta.
+// Sin recordar, el token va a sessionStorage (ver pb.ts) y la bandera de sessionStorage marca que esta pestaña ya inició sesión:
+// en otra pestaña o al reabrir el navegador no está y la sesión se descarta.
 const RECORDAR = 'dm.recordar', EN_CURSO = 'dm.sesion', EMAIL = 'dm.email';
+
+/** Antes de entrar: decide dónde va a guardar el token pb.ts. */
+function elegirRecordar(recordar: boolean) {
+	try { localStorage.setItem(RECORDAR, recordar ? '1' : '0'); } catch { /* sin almacenamiento */ }
+}
 
 export function anotar(recordar: boolean, email: string) {
 	try {
@@ -116,6 +123,7 @@ export async function validarSesionAlIniciar() {
 
 /** `identidad` es el usuario o el mail. */
 export async function entrar(identidad: string, pass: string, recordar = true) {
+	elegirRecordar(recordar);
 	await pb.collection('users').authWithPassword(identidad, pass);
 	anotar(recordar, identidad);
 }

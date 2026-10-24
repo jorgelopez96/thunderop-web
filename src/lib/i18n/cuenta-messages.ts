@@ -7,16 +7,18 @@ type Seccion = { titulo: string; parrafos: string[] };
 const es = {
 	comun: {
 		email: 'Email', usuario: 'Usuario', apodo: 'Apodo', clave: 'Contraseña', nacimiento: 'Fecha de nacimiento',
-		codigo: 'Código', volver: 'Volver al inicio', reenviar: 'Reenviar código', segundos: 's', irEntrar: 'Ir a entrar'
+		codigo: 'Código', volver: 'Volver al inicio', reenviar: 'Reenviar código', segundos: 's', irEntrar: 'Ir a entrar',
+		repetir: 'Repetí la contraseña', ver: 'Mostrar contraseña', ocultar: 'Ocultar contraseña'
 	},
 	requisitos: { titulo: 'Requisitos de la contraseña', largo: '8 caracteres o más', mayuscula: 'Una mayúscula', numero: 'Un número', especial: 'Un carácter especial' },
 	terminos: { antes: 'Acepto los', terminos: 'términos', medio: 'y la', privacidad: 'política de privacidad' },
 	entrar: {
 		titulo: 'Entrar a Thunderop', identidad: 'Usuario o email', recordar: 'Recordar mi cuenta', enviar: 'Entrar',
-		google: 'Entrar con Google', olvide: 'Olvidé mi contraseña',
+		google: 'Entrar con Google', o: 'o entrá con', olvide: 'Olvidé mi contraseña',
 		confirmar: '¿Tenés una cuenta sin confirmar? Confirmala', sinCuenta: '¿No tenés cuenta?', crear: 'Creá una'
 	},
-	crear: { titulo: 'Crear cuenta', enviar: 'Crear cuenta', yaTengo: '¿Ya tenés cuenta?', entrar: 'Entrá' },
+	crear: { titulo: 'Crear cuenta', enviar: 'Crear cuenta', yaTengo: '¿Ya tenés cuenta?', entrar: 'Entrá',
+		phUsuario: 'No se puede cambiar después', phApodo: 'Cómo te ven los demás' },
 	verificar: {
 		titulo: 'Confirmá tu cuenta', cuerpo: 'Te mandamos un código de 6 dígitos por mail. Vence en 10 minutos.',
 		enviar: 'Confirmar', nuevo: 'Te mandamos un código nuevo.', listo: 'Cuenta confirmada. Ya podés entrar.'
@@ -47,7 +49,7 @@ const es = {
 		apodo: 'El apodo debe tener entre 1 y 32 caracteres.', aceptar: 'Tenés que aceptar los términos para seguir.',
 		datos: 'Usuario, email o contraseña incorrectos.', intentos: 'Demasiados intentos, esperá un momento.',
 		codigo: 'El código no es válido o venció.', invitacion: 'El código de invitación no es válido.',
-		popup: 'Permití las ventanas emergentes para entrar con Google.'
+		popup: 'Permití las ventanas emergentes para entrar con Google.', noCoinciden: 'Las contraseñas no coinciden.'
 	},
 	legal: {
 		borrador: 'Borrador — pendiente de revisión legal', version: 'Versión 1 · 23 de octubre de 2026',
@@ -90,16 +92,18 @@ type Mensajes = typeof es;
 const en: Mensajes = {
 	comun: {
 		email: 'Email', usuario: 'Username', apodo: 'Display name', clave: 'Password', nacimiento: 'Date of birth',
-		codigo: 'Code', volver: 'Back to home', reenviar: 'Resend code', segundos: 's', irEntrar: 'Go to log in'
+		codigo: 'Code', volver: 'Back to home', reenviar: 'Resend code', segundos: 's', irEntrar: 'Go to log in',
+		repetir: 'Repeat password', ver: 'Show password', ocultar: 'Hide password'
 	},
 	requisitos: { titulo: 'Password requirements', largo: '8 characters or more', mayuscula: 'One uppercase letter', numero: 'One number', especial: 'One special character' },
 	terminos: { antes: 'I accept the', terminos: 'terms', medio: 'and the', privacidad: 'privacy policy' },
 	entrar: {
 		titulo: 'Log in to Thunderop', identidad: 'Username or email', recordar: 'Remember me', enviar: 'Log in',
-		google: 'Log in with Google', olvide: 'I forgot my password',
+		google: 'Log in with Google', o: 'or log in with', olvide: 'I forgot my password',
 		confirmar: 'Have an unconfirmed account? Confirm it', sinCuenta: 'No account yet?', crear: 'Create one'
 	},
-	crear: { titulo: 'Create account', enviar: 'Create account', yaTengo: 'Already have an account?', entrar: 'Log in' },
+	crear: { titulo: 'Create account', enviar: 'Create account', yaTengo: 'Already have an account?', entrar: 'Log in',
+		phUsuario: 'Can’t be changed later', phApodo: 'How others see you' },
 	verificar: {
 		titulo: 'Confirm your account', cuerpo: 'We emailed you a 6-digit code. It expires in 10 minutes.',
 		enviar: 'Confirm', nuevo: 'We sent you a new code.', listo: 'Account confirmed. You can log in now.'
@@ -130,7 +134,7 @@ const en: Mensajes = {
 		apodo: 'Display names have 1 to 32 characters.', aceptar: 'You need to accept the terms to continue.',
 		datos: 'Wrong username, email or password.', intentos: 'Too many attempts, wait a moment.',
 		codigo: 'That code is not valid or has expired.', invitacion: 'That invitation code is not valid.',
-		popup: 'Allow pop-ups to log in with Google.'
+		popup: 'Allow pop-ups to log in with Google.', noCoinciden: 'Passwords don’t match.'
 	},
 	legal: {
 		borrador: 'Draft — pending legal review', version: 'Version 1 · October 23, 2026',

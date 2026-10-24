@@ -47,28 +47,28 @@ const en = {
     "carouselLabel": "Community interests",
     "dragHint": "Drag or swipe to explore",
     "action": "Explore",
-    "status": "Your next community is taking shape",
-    "dialogBody": "These are some of the spaces we imagine for Thunderop. Official communities and invitation links will appear here when they’re ready.",
+    "status": "Available in the app",
+    "dialogBody": "Download Thunderop to try it with your friends.",
     "cards": {
       "gaming": {
         "title": "Gaming",
-        "subtitle": "Find your next squad",
-        "body": "Team up, talk strategy or share the best moment of the night."
+        "subtitle": "Play together, talk together",
+        "body": "Voice rooms with noise suppression while you play, so your squad hears you clearly and nothing lags."
       },
       "music": {
         "title": "Music",
-        "subtitle": "Good music. Better company.",
-        "body": "Share discoveries, talk about your favorite artists and find your rhythm together."
+        "subtitle": "Listen with your friends",
+        "body": "Put on songs or YouTube playlists and everyone in the room hears them at the same time."
       },
-      "art": {
-        "title": "Art & creativity",
-        "subtitle": "Make something together",
-        "body": "Trade ideas, show what you’re working on and get inspired by other creators."
+      "stream": {
+        "title": "Screen sharing",
+        "subtitle": "Your game in 1080p at 60 fps",
+        "body": "Share your game or any window with your friends, sharp and smooth, using your graphics card."
       },
-      "study": {
-        "title": "Study & tech",
-        "subtitle": "Curiosity belongs here",
-        "body": "Learn something new, work alongside your people and celebrate every breakthrough."
+      "sounds": {
+        "title": "Soundboard",
+        "subtitle": "Your memes, one click away",
+        "body": "Upload sounds with their own emoji and play them in the call for everyone."
       }
     }
   },
@@ -186,28 +186,28 @@ const es: Strings<typeof en> = {
     "carouselLabel": "Intereses de la comunidad",
     "dragHint": "Arrastrá o deslizá para explorar",
     "action": "Explorar",
-    "status": "Tu próxima comunidad está tomando forma",
-    "dialogBody": "Estos son algunos de los espacios que imaginamos para Thunderop. Las comunidades oficiales y sus invitaciones aparecerán acá cuando estén listas.",
+    "status": "Ya está en la app",
+    "dialogBody": "Descargá Thunderop para probarlo con tus amigos.",
     "cards": {
       "gaming": {
         "title": "Gaming",
-        "subtitle": "Encontrá tu próximo equipo",
-        "body": "Armá una partida, compartí estrategias o reviví la mejor jugada de la noche."
+        "subtitle": "Jugá y hablá con tu equipo",
+        "body": "Salas de voz con supresión de ruido mientras jugás: tu equipo te escucha claro y sin lag."
       },
       "music": {
         "title": "Música",
-        "subtitle": "Buena música. Mejor compañía.",
-        "body": "Compartí descubrimientos, charlá sobre tus artistas favoritos y encontrá tu ritmo en compañía."
+        "subtitle": "Escuchala con tus amigos",
+        "body": "Poné canciones o listas de YouTube y todos en la sala las escuchan al mismo tiempo."
       },
-      "art": {
-        "title": "Arte y creatividad",
-        "subtitle": "Creá algo en compañía",
-        "body": "Intercambiá ideas, mostrá lo que estás creando e inspirate con otros artistas."
+      "stream": {
+        "title": "Transmití tu pantalla",
+        "subtitle": "Tu partida en 1080p a 60 fps",
+        "body": "Compartí el juego o cualquier ventana con tus amigos, nítido y fluido, usando tu placa de video."
       },
-      "study": {
-        "title": "Estudio y tecnología",
-        "subtitle": "La curiosidad tiene su lugar",
-        "body": "Aprendé algo nuevo, estudiá con tu gente y celebrá cada pequeño logro."
+      "sounds": {
+        "title": "Botonera de sonidos",
+        "subtitle": "Tus memes, a un clic",
+        "body": "Subí sonidos con su emoji y hacelos sonar en la llamada para todos."
       }
     }
   },

@@ -6,6 +6,7 @@
 	import { errorClave, errorEdad, errorUsuario, normalizarUsuario } from '#lib/reglasCuenta.js';
 	import PaginaCuenta from '#lib/components/cuenta/PaginaCuenta.svelte';
 	import Requisitos from '#lib/components/cuenta/Requisitos.svelte';
+	import Clave from '#lib/components/cuenta/Clave.svelte';
 	import Terminos from '#lib/components/cuenta/Terminos.svelte';
 	import Verificar from '#lib/components/cuenta/Verificar.svelte';
 
@@ -15,6 +16,7 @@
 	let usuario = $state('');
 	let name = $state('');
 	let pass = $state('');
+	let repetida = $state('');
 	let nacimiento = $state('');
 	let acepto = $state(false);
 	let error = $state('');
@@ -27,6 +29,7 @@
 	async function enviar(ev: SubmitEvent) {
 		ev.preventDefault();
 		error = traducir(errorUsuario(normalizarUsuario(usuario)) || errorClave(pass) || errorEdad(nacimiento, new Date()), t.errores);
+		if (!error && pass !== repetida) error = t.errores.noCoinciden;
 		if (!error && !acepto) error = t.errores.aceptar;
 		if (error) return;
 		ocupado = true;
@@ -65,15 +68,16 @@
 	<PaginaCuenta titulo={t.crear.titulo}>
 		<form onsubmit={enviar}>
 			<label>{t.comun.email} <input type="email" bind:value={email} required autocomplete="email" /></label>
-			<label>{t.comun.usuario} <input bind:value={usuario} required maxlength="20" autocomplete="username" /></label>
-			<label>{t.comun.apodo} <input bind:value={name} required maxlength="32" autocomplete="nickname" /></label>
-			<label>{t.comun.clave} <input type="password" bind:value={pass} required autocomplete="new-password" /></label>
+			<label>{t.comun.usuario} <input bind:value={usuario} required maxlength="20" autocomplete="username" placeholder={t.crear.phUsuario} /></label>
+			<label>{t.comun.apodo} <input bind:value={name} required maxlength="32" autocomplete="nickname" placeholder={t.crear.phApodo} /></label>
+			<Clave etiqueta={t.comun.clave} bind:value={pass} autocomplete="new-password" />
 			<Requisitos clave={pass} />
+			<Clave etiqueta={t.comun.repetir} bind:value={repetida} autocomplete="new-password" />
 			<label>{t.comun.nacimiento} <input type="date" bind:value={nacimiento} required max={hoy} /></label>
 			<Terminos bind:aceptado={acepto} />
 			{#if error}<p role="alert">{error}</p>{/if}
 			<button type="submit" class="button button-primary" disabled={!i18n.ready || ocupado}>{t.crear.enviar}</button>
 		</form>
-		<div class="enlaces"><span>{t.crear.yaTengo} <a href="/entrar">{t.crear.entrar}</a></span></div>
+		<div class="enlaces centro"><span>{t.crear.yaTengo} <a href="/entrar">{t.crear.entrar}</a></span></div>
 	</PaginaCuenta>
 {/if}

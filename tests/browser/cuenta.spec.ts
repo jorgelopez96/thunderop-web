@@ -43,6 +43,12 @@ test('Crear cuenta tilda los requisitos de la contraseña y manda la versión de
 	await page.getByLabel('Usuario').fill('  Jorge ');
 	await page.getByLabel('Apodo').fill('Jorge');
 	await page.getByLabel('Fecha de nacimiento').fill('2000-05-01');
+	await page.getByLabel('Repetí la contraseña').fill('Abcdefg1?');
+	await page.getByRole('button', { name: 'Crear cuenta' }).click();
+	await expect(page.getByRole('alert')).toContainText('no coinciden');
+	await page.getByLabel('Repetí la contraseña').fill('Abcdefg1!');
+	await page.getByRole('button', { name: 'Mostrar contraseña' }).first().click();
+	await expect(page.getByLabel('Contraseña', { exact: true })).toHaveAttribute('type', 'text');
 	await page.getByRole('button', { name: 'Crear cuenta' }).click();
 	await expect(page.getByRole('alert')).toContainText('aceptar los términos');
 	await page.getByRole('checkbox').check();

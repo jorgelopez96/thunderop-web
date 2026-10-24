@@ -61,7 +61,7 @@ test('Community exploration and support expose honest availability and restore f
  await explore.click();
  const dialog=page.getByRole('dialog');
  await expect(dialog).toContainText('Music');
- await expect(dialog).toContainText('invitation links will appear here');
+ await expect(dialog).toContainText('try it with your friends');
  await page.keyboard.press('Escape');
  await expect(explore).toBeFocused();
  const contact=page.getByRole('button',{name:/Contact support/});

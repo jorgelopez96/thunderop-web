@@ -42,6 +42,13 @@
 	.tarjeta :global(a:not(.button)), .tarjeta :global(.enlace) { color: #c9a6ff; text-decoration: underline; text-underline-offset: 3px; background: none; padding: 0; font: inherit; }
 	.tarjeta :global(.enlace:disabled) { opacity: .6; text-decoration: none; }
 	.tarjeta :global(.enlaces) { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 14px; color: #b3b0cb; }
+	.tarjeta :global(.enlaces.centro) { flex-direction: column; align-items: center; text-align: center; }
+	.tarjeta :global(input::placeholder) { color: #6f6a8f; }
+	.tarjeta :global(input:not([type='checkbox']):hover) { border-color: #9a82e6; }
+	.tarjeta :global(input:not([type='checkbox']):focus) { border-color: #8c43ff; box-shadow: 0 0 0 4px #8c43ff26; outline: none; }
+	.tarjeta :global(button[type='submit']) { min-height: 50px; margin-top: 4px; }
+	.tarjeta :global(.separador) { display: flex; align-items: center; gap: 12px; color: #8e88ad; font-size: 13px; }
+	.tarjeta :global(.separador::before), .tarjeta :global(.separador::after) { content: ''; flex: 1; height: 1px; background: #9785b633; }
 	.tarjeta :global([role='alert']) { color: #ff8fa3; font-size: 14px; }
 	.tarjeta :global([role='status']) { color: #8fe3b0; font-size: 14px; }
 </style>
