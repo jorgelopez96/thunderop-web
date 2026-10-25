@@ -56,8 +56,10 @@ export async function aceptarTerminos(version: number) { await post('terminos', 
 
 /** Link del instalador, si el servidor acepta el código o (sin código) la sesión de una cuenta completa. Se pide desde el navegador:
  *  así el límite por IP del servidor es de cada visitante, y el link no está en el HTML ni en el código de la página. */
-export async function pedirDescarga(codigo?: string): Promise<string> {
-	const { url } = await pb.send('/api/descarga/validar', { method: 'POST', body: codigo === undefined ? {} : { codigo: codigo.trim().slice(0, 100) } });
+export async function pedirDescarga(codigo?: string, beta = false): Promise<string> {
+	const body: Record<string, string> = beta ? { version: 'beta' } : {};
+	if (codigo !== undefined) body.codigo = codigo.trim().slice(0, 100);
+	const { url } = await pb.send('/api/descarga/validar', { method: 'POST', body });
 	return linkSeguro(url);
 }
 

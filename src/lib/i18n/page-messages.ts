@@ -12,6 +12,7 @@ const en = {
     "experienceDescription": "Voice, video and shared moments",
     "communitiesDescription": "Find people who share your interests",
     "windowsDescription": "Your next desktop hangout",
+    "webAppDescription": "Thunderop in your browser and phone",
     "faqDescription": "A few answers to get you started",
     "supportDescription": "A little help, whenever you need it"
   },
@@ -151,6 +152,7 @@ const es: Strings<typeof en> = {
     "experienceDescription": "Voz, video y momentos compartidos",
     "communitiesDescription": "Encontrá gente con tus intereses",
     "windowsDescription": "Tu próximo punto de encuentro",
+    "webAppDescription": "Thunderop en el navegador y el celular",
     "faqDescription": "Respuestas para empezar",
     "supportDescription": "Una mano cuando la necesitás"
   },

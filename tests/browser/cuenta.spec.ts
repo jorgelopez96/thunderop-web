@@ -115,9 +115,21 @@ test('Con el código correcto, PocketBase da el link y el navegador baja el inst
 	expect(await page.content()).not.toContain('thunderop-setup');
 	await page.getByLabel('Código de invitación').fill('  BUEN-CODIGO ');
 	const bajada = page.waitForRequest(INSTALADOR);
-	await page.getByRole('button', { name: 'Descargar instalador' }).click();
+	await page.getByRole('button', { name: 'Descargar 0.6.1 · Estable' }).click();
 	await bajada;
 	expect(pedidos.find((p) => p.ruta === 'POST /api/descarga/validar')!.cuerpo).toEqual({ codigo: 'BUEN-CODIGO' });
+});
+
+test('La Beta pide el instalador de prueba con el mismo código', async ({ page }) => {
+	await idioma(page, 'es');
+	const pedidos = await pocketbase(page, { 'POST /api/descarga/validar': [200, { url: INSTALADOR }] });
+	await page.goto('/');
+	await page.locator('.hero-actions').getByRole('button', { name: 'Descargar para Windows' }).click();
+	await page.getByLabel('Código de invitación').fill('BUEN-CODIGO');
+	const bajada = page.waitForRequest(INSTALADOR);
+	await page.getByRole('button', { name: 'Descargar 0.7.1 · Beta' }).click();
+	await bajada;
+	expect(pedidos.find((p) => p.ruta === 'POST /api/descarga/validar')!.cuerpo).toEqual({ version: 'beta', codigo: 'BUEN-CODIGO' });
 });
 
 test('Con la cuenta completa, la descarga va con la sesión y sin código', async ({ page }) => {
@@ -130,7 +142,7 @@ test('Con la cuenta completa, la descarga va con la sesión y sin código', asyn
 	});
 	await page.goto('/cuenta');
 	const bajada = page.waitForRequest(INSTALADOR);
-	await page.getByRole('button', { name: 'Descargar Thunderop para Windows' }).click();
+	await page.getByRole('button', { name: 'Descargar 0.6.1 · Estable' }).click();
 	await bajada;
 	const validar = pedidos.find((p) => p.ruta === 'POST /api/descarga/validar')!;
 	expect(validar.cuerpo).toEqual({});
@@ -144,7 +156,7 @@ for (const url of ['javascript:alert(1)', 'https://otro.example/thunderop-setup.
 		await page.goto('/');
 		await page.locator('.hero-actions').getByRole('button', { name: 'Descargar para Windows' }).click();
 		await page.getByLabel('Código de invitación').fill('BUEN-CODIGO');
-		await page.getByRole('button', { name: 'Descargar instalador' }).click();
+		await page.getByRole('button', { name: 'Descargar 0.6.1 · Estable' }).click();
 		await expect(page.getByRole('alert')).toContainText('No se pudo revisar el código');
 		await expect(page).toHaveURL('http://localhost:5174/');
 	});

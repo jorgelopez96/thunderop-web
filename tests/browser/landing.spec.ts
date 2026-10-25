@@ -48,9 +48,9 @@ test('Download asks for the invitation code and closes with Escape', async ({ pa
 	// El link del instalador no está en la página: lo da el servidor solo con el código correcto.
 	expect(await page.content()).not.toContain('thunderop-setup.exe');
 	await page.getByLabel('Invitation code').fill('cualquiera');
-	await page.getByRole('button', { name: 'Download installer' }).click();
+	await page.getByRole('button', { name: 'Download 0.6.1 · Stable' }).click();
 	await expect(page.getByRole('alert')).toContainText('That code is not right');
-	await page.getByRole('button', { name: 'Download installer' }).click();
+	await page.getByRole('button', { name: 'Download 0.6.1 · Stable' }).click();
 	await expect(page.getByRole('alert')).toContainText('Too many attempts, wait a minute.');
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).not.toBeVisible();

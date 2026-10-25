@@ -24,6 +24,7 @@
 		{ href: '#experience', title: t.nav.experience, description: labels.experienceDescription, icon: 'bolt' as const, accent: '#b38aff' },
 		{ href: '#communities', title: labels.communities, description: labels.communitiesDescription, icon: 'users' as const, accent: '#d58bff' },
 		{ href: '#download', title: t.nav.windows, description: labels.windowsDescription, icon: 'windows' as const, accent: '#7bb8ff' },
+		{ href: '/web', title: t.nav.webApp, description: labels.webAppDescription, icon: 'globe' as const, accent: '#7fe0c4' },
 		{ href: '#faq', title: labels.faq, description: labels.faqDescription, icon: 'book' as const, accent: '#a39bff' },
 		{ href: '#support', title: labels.support, description: labels.supportDescription, icon: 'headphones' as const, accent: '#6ed7f3' }
 	]);

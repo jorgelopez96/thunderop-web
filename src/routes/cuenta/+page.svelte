@@ -19,11 +19,11 @@
 	});
 
 	// Con la cuenta completa alcanza la sesión: el servidor valida el token y da el link.
-	async function descargar() {
+	async function descargar(beta = false) {
 		errorDescarga = '';
 		descargando = true;
 		try {
-			window.location.href = await pedirDescarga();
+			window.location.href = await pedirDescarga(undefined, beta);
 		} catch (e) {
 			errorDescarga = e instanceof ClientResponseError ? mensajeError(e, t.errores) : t.cuenta.falloDescarga;
 		}
@@ -54,12 +54,22 @@
 		{#if aCompletar}<a class="button button-primary" href="/completar">{t.cuenta.completar}</a>{/if}
 	{:else}
 		<p role="status">{t.cuenta.lista}</p>
-		<button type="button" class="button button-primary" disabled={!i18n.ready || descargando} onclick={descargar}>{descargando ? t.cuenta.descargando : t.cuenta.descargar}</button>
+		<button type="button" class="button button-primary" disabled={!i18n.ready || descargando} onclick={() => descargar()}>{descargando ? t.cuenta.descargando : i18n.text.download.stable}</button>
+		<button type="button" class="button button-secondary" disabled={!i18n.ready || descargando} onclick={() => descargar(true)}>{i18n.text.download.beta}</button>
+		<details class="guia-beta">
+			<summary>{i18n.text.download.betaTitle}</summary>
+			<p>{i18n.text.download.betaNote}</p>
+			<ol><li>{i18n.text.download.betaStep1}</li><li>{i18n.text.download.betaStep2}</li></ol>
+		</details>
 		{#if errorDescarga}<p role="alert">{errorDescarga}</p>{/if}
 	{/if}
 	<button type="button" class="button button-secondary" onclick={cerrar}>{t.cuenta.salir}</button>
 </PaginaCuenta>
 
 <style>
+	.guia-beta { padding: 12px 14px; border: 1px solid #7a62c744; border-radius: 12px; background: #0d0e2299; font-size: 13px; color: #cfc6ea; }
+	.guia-beta summary { cursor: pointer; font-weight: 650; color: #e6dcff; }
+	.guia-beta p { margin: 10px 0 6px; }
+	.guia-beta ol { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 	ul { margin: 0; padding-left: 20px; color: #d9d2f2; line-height: 1.8; }
 </style>
