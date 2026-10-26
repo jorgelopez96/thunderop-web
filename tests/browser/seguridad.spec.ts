@@ -12,3 +12,9 @@ test('la página trae las cabeceras de seguridad', async ({ request }) => {
 	expect(h['permissions-policy']).toContain('microphone=()');
 	expect(h['strict-transport-security']).toContain('max-age=');
 });
+
+test('/web lleva a la aplicación web', async ({ request }) => {
+	const r = await request.get('/web', { maxRedirects: 0 });
+	expect(r.status()).toBe(308);
+	expect(r.headers()['location']).toBe('https://app.thunderop.com');
+});
