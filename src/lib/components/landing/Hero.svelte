@@ -22,11 +22,6 @@
 				<button disabled={!i18n.ready} type="button" class="button button-primary" onclick={onDownload}><Icon name="windows" size={21} />{t.hero.download}<Icon name="arrow" size={18} /></button>
 				<a class="button button-secondary" href="#experience"><span class="play-icon">▶</span>{t.hero.explore}</a>
 			</div>
-			<ul class="hero-benefits">
-				<li><span><Icon name="check" size={10} /></span>{t.hero.windows}</li>
-				<li><span><Icon name="check" size={10} /></span>{t.hero.gamers}</li>
-				<li><span><Icon name="check" size={10} /></span>{t.hero.together}</li>
-			</ul>
 		</div>
 		<div class="hero-art">
 			<div class="preview-position"><AppPreview /></div>

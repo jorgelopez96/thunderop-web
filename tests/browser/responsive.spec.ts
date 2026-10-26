@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { elegirIdioma } from './elegir-idioma';
 
 const viewports = [
 	{ width: 320, height: 568 }, { width: 360, height: 800 },
@@ -15,7 +16,7 @@ for (const viewport of viewports) {
 		await page.emulateMedia({ reducedMotion: 'reduce' });
 		await page.goto('/');
 		for (const locale of ['es', 'en']) {
-			await page.getByRole('combobox').selectOption(locale);
+			await elegirIdioma(page, locale);
 			await page.evaluate(() => document.fonts.ready);
 			const metrics = await page.evaluate(() => {
 				const box = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
@@ -49,7 +50,7 @@ for (const viewport of viewports) {
                     mascotHeight: mascot.height, previewHeight: preview.height, previewRatio: preview.width / preview.height,
 					headerOverlap: box('.brand-link').right > box('.header-actions').left,
 					smallTargets: buttons.some(button => button.getBoundingClientRect().height < 44),
-					smallSelector: box('.language-selector select').height < 44,
+					smallSelector: box('.language-selector button.idioma').height < 44,
 					bodySize: parseFloat(getComputedStyle(document.querySelector('.hero-description')!).fontSize),
 					displayFont: getComputedStyle(heading).fontFamily,
 					bodyFont: getComputedStyle(document.body).fontFamily,
@@ -84,7 +85,7 @@ for (const viewport of viewports) {
 test('Small-screen menu and dialog stay usable in portrait and landscape', async ({ page }) => {
 	await page.setViewportSize({ width: 320, height: 568 });
 	await page.goto('/');
-	await page.getByRole('combobox').selectOption('es');
+	await elegirIdioma(page, 'es');
 	const menu = page.getByRole('button', { name: 'Abrir navegación' });
 	await menu.click();
 	await expect(page.getByRole('link', { name: 'La experiencia', exact: true })).toBeVisible();

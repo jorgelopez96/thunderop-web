@@ -2,7 +2,7 @@ import type { Locale } from './locales.js';
 
 const en = {
 	meta: { title: 'Thunderop — Good chats. Brighter connections.', description: 'Your people, one place. Discover Thunderop: voice, video, screen sharing and communities for the moments you share.' },
-	nav: { label: 'Main navigation', home: 'Home', experience: 'The experience', windows: 'For Windows', menu: 'Open navigation', close: 'Close navigation', skip: 'Skip to content', login: 'Log in', account: 'My account', webApp: 'Web app' },
+	nav: { label: 'Main navigation', home: 'Home', experience: 'The experience', windows: 'For Windows', menu: 'Open navigation', close: 'Close navigation', skip: 'Skip to content', login: 'Log in', account: 'My account', webApp: 'Web app', goWebApp: 'Go to web app' },
 	language: { label: 'Choose your language', es: 'Español', en: 'English' },
 	hero: {
 		eyebrow: 'CONNECT · PLAY · TOGETHER',
@@ -12,7 +12,6 @@ const en = {
 		description: 'The best moments happen together. Talk, share your screen and find your people — all in one place, before, during and after the game.',
 		download: 'Download for Windows',
 		explore: 'Discover Thunderop',
-		windows: 'Made for Windows', gamers: 'Built for gamers', together: 'Better together',
 		mascot: 'Thunderop’s purple lightning mascot wearing headphones and giving a thumbs up',
 		floatingTop: 'Your whole crew. One place.',
 		floatingBottom: 'A little closer. A lot more fun.',
@@ -76,7 +75,7 @@ export type Messages = TranslationShape<typeof en>;
 
 const es: Messages = {
 	meta: { title: 'Thunderop — Buenas charlas. Mejores conexiones.', description: 'Tu gente, en un solo lugar. Descubrí Thunderop: voz, video, pantalla compartida y comunidades para compartir más momentos.' },
-	nav: { label: 'Navegación principal', home: 'Inicio', experience: 'La experiencia', windows: 'Para Windows', menu: 'Abrir navegación', close: 'Cerrar navegación', skip: 'Ir al contenido', login: 'Iniciar sesión', account: 'Mi cuenta', webApp: 'Aplicación web' },
+	nav: { label: 'Navegación principal', home: 'Inicio', experience: 'La experiencia', windows: 'Para Windows', menu: 'Abrir navegación', close: 'Cerrar navegación', skip: 'Ir al contenido', login: 'Iniciar sesión', account: 'Mi cuenta', webApp: 'Aplicación web', goWebApp: 'Ir a la app web' },
 	language: { label: 'Elegí tu idioma', es: 'Español', en: 'English' },
 	hero: {
 		eyebrow: 'CONECTÁ · JUGÁ · COMPARTÍ',
@@ -86,7 +85,6 @@ const es: Messages = {
 		description: 'Los mejores momentos se viven juntos. Hablá, compartí tu pantalla y encontrá a tu gente: todo en un lugar, antes, durante y después de cada partida.',
 		download: 'Descargar para Windows',
 		explore: 'Descubrí Thunderop',
-		windows: 'Hecho para Windows', gamers: 'Pensado para gamers', together: 'Mejor en compañía',
 		mascot: 'La mascota de Thunderop, un rayo violeta con auriculares y el pulgar arriba',
 		floatingTop: 'Todo tu equipo. Un solo lugar.',
 		floatingBottom: 'Más cerca. Mucho más divertido.',

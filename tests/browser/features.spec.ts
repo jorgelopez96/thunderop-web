@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { elegirIdioma } from './elegir-idioma';
 
 const titles = {
 	es: ['Chat de voz', 'Videollamadas', 'Pantalla compartida', 'Comunidades', 'Bajo consumo', 'Rápido y estable'],
@@ -8,7 +9,7 @@ const titles = {
 test('Discover navigation reaches all six features and language changes translate them', async ({ page }) => {
 	await page.goto('/');
 	for (const locale of ['es', 'en'] as const) {
-		await page.getByRole('combobox').selectOption(locale);
+		await elegirIdioma(page, locale);
 		const section = page.locator('#experience');
 		await expect(section.getByRole('heading', { level: 3 })).toHaveText(titles[locale]);
 		await expect(section.getByRole('heading', { level: 2 })).toContainText(locale === 'es' ? 'Conexiones reales.' : 'Real connections.');
@@ -27,7 +28,7 @@ for (const width of [320,390,557,768,1024,1440,1920]) {
 		await page.emulateMedia({ reducedMotion: 'reduce' });
 		await page.goto('/');
 		for (const locale of ['es', 'en'] as const) {
-			await page.getByRole('combobox').selectOption(locale);
+			await elegirIdioma(page, locale);
 			await page.evaluate(() => document.fonts.ready);
 			await expect(page.locator('#experience article')).toHaveCount(6);
 			const metrics = await page.locator('#experience').evaluate(section => {

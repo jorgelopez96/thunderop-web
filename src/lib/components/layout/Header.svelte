@@ -10,10 +10,9 @@
 	const i18n = getI18n();
 	const t = $derived(i18n.text);
 	const labels = $derived(pageMessages[i18n.locale].nav);
-	let { onDownload }: { onDownload: () => void } = $props();
 	// La sesión vive en el navegador: hasta montar, el link es el de entrar (igual que lo renderiza el servidor).
 	const conSesion = $derived(i18n.ready && !!sesion.usuario);
-	const login = $derived(conSesion ? { href: '/cuenta', texto: t.nav.account } : { href: '/entrar', texto: t.nav.login });
+	const APP_WEB = 'https://app.thunderop.com';
 	let menuOpen = $state(false);
 	let activeHash = $state('#home');
 	let menuButton: HTMLButtonElement;
@@ -54,11 +53,6 @@
 		if (menuOpen && event.target instanceof Node && !header.contains(event.target)) closeMenu();
 	}
 	function syncHash() { activeHash = window.location.hash || '#home'; }
-	async function downloadFromMenu() {
-		closeMenu(true);
-		await tick();
-		onDownload();
-	}
 	onMount(() => {
 		syncHash();
 		const desktop = matchMedia('(min-width: 1001px)');
@@ -89,19 +83,22 @@
 				</a>
 			{/each}
 			<div class="mobile-menu-footer">
-				<a class="button button-secondary menu-login" href={login.href}>{login.texto}</a>
-				<button disabled={!i18n.ready} type="button" class="button button-primary menu-download" onclick={downloadFromMenu}>
-					<Icon name="windows" size={19} />{t.hero.download}<Icon name="down" size={17} />
-				</button>
-				<p><span></span>{labels.menuStatus}</p>
+				{#if conSesion}
+					<a class="button button-primary menu-cta" href={APP_WEB}>{t.nav.goWebApp}<Icon name="arrow" size={17} /></a>
+					<a class="button button-secondary menu-login" href="/cuenta">{t.nav.account}</a>
+				{:else}
+					<a class="button button-primary menu-cta" href="/entrar">{t.nav.login}<Icon name="arrow" size={17} /></a>
+				{/if}
 			</div>
 		</nav>
 		<div class="header-actions">
 			<LanguageSelector />
-			<a class="button button-secondary header-login" href={login.href}>{login.texto}</a>
-			<button disabled={!i18n.ready} type="button" class="button button-primary header-download" onclick={onDownload}>
-				<Icon name="windows" size={18} />{t.hero.download}
-			</button>
+			{#if conSesion}
+				<a class="button button-primary header-login" href={APP_WEB}>{t.nav.goWebApp}</a>
+				<a class="button button-secondary header-login" href="/cuenta">{t.nav.account}</a>
+			{:else}
+				<a class="button button-primary header-login" href="/entrar">{t.nav.login}</a>
+			{/if}
 			<button disabled={!i18n.ready} bind:this={menuButton} type="button" class="menu-toggle" class:active={menuOpen} aria-label={menuOpen ? t.nav.close : t.nav.menu} aria-expanded={menuOpen} aria-controls="main-navigation" onclick={toggleMenu}>
 				<span class="menu-lines" aria-hidden="true"><span></span><span></span><span></span></span>
 			</button>
@@ -146,16 +143,14 @@
 		.header-login { display: none; }
 		.main-navigation .menu-login { display: flex; width: 100%; min-height: 50px; justify-content: center; margin-bottom: 10px; font-size: 13px; border-radius: 11px; }
 		.mobile-menu-footer { display: block; border-top: 1px solid #a283c72b; padding: 17px 7px 3px; margin-top: 10px; }
-		.main-navigation .menu-download { width: 100%; min-height: 50px; justify-content: center; gap: 10px; padding: 12px 14px; color: white; font-size: 13px; border-radius: 11px; border: 1px solid #ae75ff; border-right-color: #48c7ff; background: linear-gradient(105deg, #9228ef, #6329f8 48%, #087aff); }
-		.menu-download > :global(svg:last-child) { margin-left: auto; }
-		.mobile-menu-footer p { display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 10px; font-weight: 450; color: #9286aa; margin: 12px 0 0; }
-		.mobile-menu-footer p > span { width: 4px; height: 4px; background: #a384d8; border-radius: 50%; }
+		.main-navigation .menu-cta { width: 100%; min-height: 50px; justify-content: center; gap: 10px; padding: 12px 14px; margin-bottom: 10px; color: white; font-size: 13px; border-radius: 11px; border: 1px solid #ae75ff; border-right-color: #48c7ff; background: linear-gradient(105deg, #9228ef, #6329f8 48%, #087aff); }
+		.menu-cta > :global(svg:last-child) { margin-left: auto; }
 	}
 	@media (max-width: 360px) {
 		.main-navigation { padding: 13px; }
 		.main-navigation .nav-link { padding-inline: 7px; gap: 10px; }
 		.nav-copy > span { font-size: 15px; }
-		.main-navigation .menu-download { font-size: 12px; gap: 8px; padding-inline: 10px; }
+		.main-navigation .menu-cta { font-size: 12px; gap: 8px; padding-inline: 10px; }
 	}
 	@keyframes menu-reveal { from { opacity: 0; transform: translateY(-9px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 	@keyframes scrim-reveal { from { opacity: 0; } to { opacity: 1; } }

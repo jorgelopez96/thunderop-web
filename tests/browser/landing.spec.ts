@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { elegirIdioma } from './elegir-idioma';
 import { PB_PRUEBA } from '../../playwright.config';
 
 test('Spanish is rendered on the server from the browser language', async ({ browser }) => {
@@ -9,7 +10,7 @@ test('Spanish is rendered on the server from the browser language', async ({ bro
 	await expect(page.locator('html')).toHaveAttribute('lang', 'es');
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Voz, video y');
 	await expect(page).toHaveTitle(/Buenas charlas/);
-	await expect(page.getByRole('combobox')).toBeEnabled();
+	await expect(page.locator('.language-selector button.idioma').first()).toBeEnabled();
     const image = page.locator('.hero-mascot img');
 	await expect(image).toBeVisible();
 	expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
@@ -19,19 +20,18 @@ test('Spanish is rendered on the server from the browser language', async ({ bro
 
 test('A manual language choice updates all visible text and survives reload', async ({ page, context }) => {
 	await page.goto('/');
-	const selector = page.getByRole('combobox');
-	await selector.selectOption('es');
+	await elegirIdioma(page, 'es');
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Voz, video y');
 	await expect(page.locator('html')).toHaveAttribute('lang', 'es');
 	await page.reload();
-	await expect(page.getByRole('combobox')).toHaveValue('es');
-	await selector.selectOption('en');
+	await expect(page.locator('.language-selector').first()).toHaveAttribute('data-locale', 'es');
+	await elegirIdioma(page, 'en');
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Voice, video &');
 	await expect(page).toHaveTitle(/Good chats/);
 	expect((await context.cookies()).find((cookie) => cookie.name === 'thunderop_locale')?.value).toBe('en');
 	await page.reload();
 	await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-	await expect(page.getByRole('combobox')).toHaveValue('en');
+	await expect(page.locator('.language-selector').first()).toHaveAttribute('data-locale', 'en');
 });
 
 test('Download asks for the invitation code and closes with Escape', async ({ page }) => {
@@ -41,7 +41,7 @@ test('Download asks for the invitation code and closes with Escape', async ({ pa
 		? route.fulfill({ status: 204, headers: { 'access-control-allow-origin': '*', 'access-control-allow-headers': '*' } })
 		: route.fulfill({ status: respuestas.shift()!, headers: { 'access-control-allow-origin': '*' }, contentType: 'application/json', body: '{}' }));
 	await page.goto('/');
-	await page.getByRole('combobox').selectOption('en');
+	await elegirIdioma(page, 'en');
 	await page.locator('.hero-actions').getByRole('button', { name: 'Download for Windows' }).click();
 	await expect(page.getByRole('dialog')).toBeVisible();
 	await expect(page.getByRole('dialog')).toContainText('Invitation only');
@@ -83,7 +83,7 @@ test('Server fallback and stored preference follow the language priority', async
 
 test('Log in goes to the sign-in page', async ({ page }) => {
 	await page.goto('/');
-	await page.getByRole('combobox').selectOption('es');
+	await elegirIdioma(page, 'es');
 	await page.locator('.header-actions').getByRole('link', { name: 'Iniciar sesión' }).click();
 	await expect(page).toHaveURL(/\/entrar$/);
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Entrar a Thunderop');

@@ -25,7 +25,7 @@
  async function openContact(){selected=null;await tick();infoDialog?.open()}
 </script>
 <FloatingScene/>
-<Header onDownload={openDownload}/>
+<Header />
 <main id="main" tabindex="-1">
  <Hero onDownload={openDownload}/>
  <Features/>

@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
+import { elegirIdioma } from './elegir-idioma';
 
 test('Complete page translates, loads its artwork and navigates to each section', async ({ page }) => {
  const errors:string[]=[];
  page.on('pageerror',error=>errors.push(error.message));
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/');
- await page.getByRole('combobox').selectOption('es');
+ await elegirIdioma(page, 'es');
  for(const id of ['download','communities','support','faq']){
   await page.locator('#main-navigation a[href="#'+id+'"]').click();
   await expect(page).toHaveURL(new RegExp('#'+id+'$'));
@@ -19,20 +20,20 @@ test('Complete page translates, loads its artwork and navigates to each section'
  }
  const art=await page.request.get('/images/communities/interests-atlas.png');
  expect(art.ok()).toBe(true);
- await page.getByRole('combobox').selectOption('en');
+ await elegirIdioma(page, 'en');
  await expect(page.locator('#windows-title')).toContainText('Less in the way');
  await expect(page.locator('#communities-title')).toContainText('A place for');
  await expect(page.locator('#faq-title')).toHaveText('Frequently asked questions');
  await page.locator('.footer-language button').filter({hasText:'Español'}).click();
  await expect(page.locator('html')).toHaveAttribute('lang','es');
  await page.reload();
- await expect(page.getByRole('combobox')).toHaveValue('es');
+ await expect(page.locator('.language-selector').first()).toHaveAttribute('data-locale', 'es');
  expect(errors).toEqual([]);
 });
 
 test('FAQ supports accent-insensitive search, clear and keyboard accordion controls',async({page})=>{
  await page.goto('/');
- await page.getByRole('combobox').selectOption('es');
+ await elegirIdioma(page, 'es');
  const search=page.getByRole('searchbox',{name:'Buscar preguntas'});
  await search.fill('idioma');
  await expect(page.locator('.faq-answers details')).toHaveCount(1);
@@ -49,14 +50,14 @@ test('FAQ supports accent-insensitive search, clear and keyboard accordion contr
  await page.getByRole('button',{name:'Borrar búsqueda'}).click();
  await expect(search).toBeFocused();
  await expect(page.locator('.faq-answers details')).toHaveCount(6);
- await page.getByRole('combobox').selectOption('en');
+ await elegirIdioma(page, 'en');
  await expect(page.getByRole('searchbox',{name:'Search questions'})).toBeVisible();
  await expect(page.locator('.faq-answers summary').first()).toHaveText('What is Thunderop?');
 });
 
 test('Community exploration and support expose honest availability and restore focus',async({page})=>{
  await page.goto('/');
- await page.getByRole('combobox').selectOption('en');
+ await elegirIdioma(page, 'en');
  const explore=page.getByRole('button',{name:'Explore Music',exact:true});
  await explore.click();
  const dialog=page.getByRole('dialog');
@@ -78,7 +79,7 @@ test('Community exploration and support expose honest availability and restore f
 test('Community cards drag in both directions and mobile navigation still works',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/');
- await page.getByRole('combobox').selectOption('es');
+ await elegirIdioma(page, 'es');
  for(const width of [390,1024]){
   await page.setViewportSize({width,height:900});
   const track=page.getByRole('region',{name:'Intereses de la comunidad'});
@@ -115,7 +116,7 @@ for(const width of [320,390,557,768,1024,1200,1440,1920]){
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/');
   for(const lang of ['es','en']){
-   await page.getByRole('combobox').selectOption(lang);
+   await elegirIdioma(page, lang);
    await page.evaluate(()=>document.fonts.ready);
    const issues=await page.evaluate(()=>{
     const problems:string[]=[];
@@ -158,7 +159,7 @@ test('Dragging over Explore does not open it, while clicks and keyboard navigati
  await page.setViewportSize({width:820,height:1100});
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/');
- await page.getByRole('combobox').selectOption('en');
+ await elegirIdioma(page, 'en');
  const track=page.getByRole('region',{name:'Community interests'});
  await track.scrollIntoViewIfNeeded();
  await expect(page.locator('.carousel-arrow')).toHaveCount(0);
@@ -192,7 +193,7 @@ test('Touch keeps native horizontal swiping and vertical page scrolling',async({
  try{
   const page=await context.newPage();
   await page.goto('/');
-  await expect(page.getByRole('combobox')).toBeEnabled();
+  await expect(page.locator('.language-selector button.idioma').first()).toBeEnabled();
   const track=page.locator('.communities-track');
   await track.scrollIntoViewIfNeeded();
   const box=(await track.boundingBox())!;

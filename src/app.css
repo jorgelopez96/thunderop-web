@@ -50,23 +50,20 @@ main:focus { outline: none; }
 .brand { display: inline-flex; align-items: center; gap: 11px; white-space: nowrap; }
 .brand-link { display: inline-flex; flex-shrink: 0; }
 .brand-name { font-family: var(--font-display); font-weight: 700; letter-spacing: -.055em; font-size: 27px; }
-.brand-period { color: #b983ff; }
+.brand-logo { width: 1.05em; height: 1.05em; flex: none; color: #b983ff; font-size: 27px; filter: drop-shadow(0 0 10px #9a55ed55); }
+.compact .brand-logo { font-size: inherit; }
 .main-navigation { margin-left: auto; display: flex; align-items: center; gap: clamp(16px, 2vw, 28px); font-size: 13px; font-weight: 600; white-space: nowrap; }
 .main-navigation a, .main-navigation button { min-height: 44px; display: flex; align-items: center; color: #c7c6df; transition: color .18s; }
 .main-navigation a:hover, .main-navigation button:hover { color: white; }
 .main-navigation button { gap: 6px; padding: 0; background: none; }
 .header-actions { display: flex; align-items: center; flex-shrink: 0; gap: 18px; }
-.language-selector { display: flex; align-items: center; min-height: 44px; gap: 5px; color: #c7c3df; }
-.language-selector select { min-height: 44px; width: 65px; appearance: none; cursor: pointer; background: transparent; border: 0; padding: 8px 0; font-size: 13px; }
-.language-selector select option { background: #15152a; color: #eeeaff; }
-.language-selector > svg:last-child { pointer-events: none; }
 .button { min-width: 0; min-height: 52px; display: inline-flex; justify-content: center; align-items: center; gap: 10px; border-radius: 11px; padding: 12px 20px; font-size: 14px; font-weight: 700; line-height: 1.45; text-align: center; transition: transform .2s, box-shadow .2s, border-color .2s; }
 .button:hover { transform: translateY(-2px); }
 .button-primary { color: white; border: 1px solid #ae75ff; border-right-color: #48c7ff; background: linear-gradient(105deg, #9228ef 0%, #6329f8 48%, #087aff 100%); box-shadow: 0 3px 23px #6c2cff42, inset 0 1px 1px #ffffff36; }
 .button-primary:hover { box-shadow: 0 5px 30px #6c2cff70, 0 0 20px #0789ff2b; }
 .button-secondary { color: #f3edff; border: 1px solid #7775c85c; background: linear-gradient(140deg, #2b20574d, #141a3040); box-shadow: inset 0 1px 0 #ffffff09; }
 .button-secondary:hover { border-color: #a090ef; }
-.header-download, .header-login { min-height: 44px; padding: 10px 15px; font-size: 12px; border-radius: 9px; white-space: nowrap; }
+.header-login { min-height: 44px; padding: 10px 15px; font-size: 12px; border-radius: 9px; white-space: nowrap; }
 .menu-toggle { display: none; justify-content: center; align-items: center; width: 44px; height: 44px; flex-shrink: 0; background: transparent; padding: 9px; border: 1px solid #7771ad3b; border-radius: 9px; }
 
 /* Normal-flow columns keep the illustration out of the text at intermediate widths. */
@@ -121,7 +118,6 @@ h1 { margin: 24px 0 0; font-size: clamp(2.8rem, 4.8vw, 4.6rem); font-weight: 700
 @keyframes mascot-jump { 0% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-60px) rotate(-200deg) scale(1.08); } 75% { transform: translateY(6px) rotate(-360deg) scale(.96); } 100% { transform: translateY(0) rotate(-360deg); } }
 
 @media (max-width: 1250px) {
-	.header-download { display: none; }
 	.main-navigation { margin-left: auto; }
 }
 
@@ -147,8 +143,6 @@ h1 { margin: 24px 0 0; font-size: clamp(2.8rem, 4.8vw, 4.6rem); font-weight: 700
 @media (max-width: 600px) {
 	.brand-name { font-size: 23px; }
 	.brand { gap: 9px; }
-	.language-selector > svg:first-child { display: none; }
-    .language-selector select { font-size: 16px; width: 70px; }
 	.hero-inner { padding-block: 40px 88px; gap: 30px; }
 	h1 { font-size: clamp(2rem, 9.6vw, 3.5rem); margin-top: 22px; letter-spacing: -.05em; }
 	.hero-tagline { font-size: 15px; line-height: 1.6; margin-top: 19px; }
@@ -168,8 +162,6 @@ h1 { margin: 24px 0 0; font-size: clamp(2.8rem, 4.8vw, 4.6rem); font-weight: 700
 	.header-actions { gap: 8px; }
 	.brand-name { font-size: 20px; }
 	.brand { gap: 7px; }
-	.language-selector { gap: 3px; }
-	.language-selector select { width: 65px; font-size: 16px; }
 	.hero-actions .button-primary > svg:last-child { display: none; }
 	.hero-benefits { font-size: 10px; }
 }
