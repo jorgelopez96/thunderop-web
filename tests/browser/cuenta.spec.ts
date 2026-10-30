@@ -127,7 +127,7 @@ test('La Beta pide el instalador de prueba con el mismo código', async ({ page 
 	await page.locator('.hero-actions').getByRole('button', { name: 'Descargar para Windows' }).click();
 	await page.getByLabel('Código de invitación').fill('BUEN-CODIGO');
 	const bajada = page.waitForRequest(INSTALADOR);
-	await page.getByRole('button', { name: 'Descargar 0.7.1 · Beta' }).click();
+	await page.getByRole('button', { name: 'Descargar 0.7.2 · Beta' }).click();
 	await bajada;
 	expect(pedidos.find((p) => p.ruta === 'POST /api/descarga/validar')!.cuerpo).toEqual({ version: 'beta', codigo: 'BUEN-CODIGO' });
 });
