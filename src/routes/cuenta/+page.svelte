@@ -55,7 +55,6 @@
 	{:else}
 		<p role="status">{t.cuenta.lista}</p>
 		<button type="button" class="button button-primary" disabled={!i18n.ready || descargando} onclick={() => descargar()}>{descargando ? t.cuenta.descargando : i18n.text.download.stable}</button>
-		<button type="button" class="button button-secondary" disabled={!i18n.ready || descargando} onclick={() => descargar(true)}>{i18n.text.download.beta}</button>
 		<details class="guia-beta">
 			<summary>{i18n.text.download.betaTitle}</summary>
 			<p>{i18n.text.download.betaNote}</p>

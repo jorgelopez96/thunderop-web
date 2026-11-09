@@ -12,7 +12,7 @@
 	export function open() { error = ''; dialog?.showModal(); }
 	function close() { dialog?.close(); }
 	// El código lo revisa el servidor de Thunderop; solo si es correcto devuelve el link del instalador.
-	// Dos botones en el mismo formulario: Estable (la que se actualiza sola) o Beta.
+	// Desde la 0.7.6 la beta pasó a estable: un solo botón (el servidor sigue aceptando `version: beta`).
 	async function descargar(e: SubmitEvent) {
 		e.preventDefault();
 		const beta = (e.submitter as HTMLButtonElement | null)?.value === 'beta';
@@ -39,7 +39,6 @@
 		<input id="download-code" type="password" autocomplete="off" required maxlength="100" bind:value={codigo} aria-invalid={!!error} aria-describedby="download-error" />
 		<p id="download-error" class="download-error" role="alert">{error}</p>
 		<button type="submit" value="estable" class="button button-primary" disabled={revisando}>{revisando ? t.download.checking : t.download.stable}<Icon name="down" size={18} /></button>
-		<button type="submit" value="beta" class="button button-secondary" disabled={revisando}>{t.download.beta}<Icon name="down" size={18} /></button>
 		<details class="guia-beta">
 			<summary>{t.download.betaTitle}</summary>
 			<p>{t.download.betaNote}</p>
