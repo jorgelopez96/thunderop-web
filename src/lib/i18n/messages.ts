@@ -62,7 +62,7 @@ const en = {
 		body: 'For now Thunderop is shared by invitation. Enter the code you were given to download the installer; after that it keeps itself up to date.',
 		status: 'Invitation only', close: 'Download installer', dismiss: 'Close download information',
 		code: 'Invitation code', checking: 'Checking…', wrong: 'That code is not right. Ask whoever invited you.', failed: 'Could not check the code. Try again.', tooMany: 'Too many attempts, wait a minute.',
-		stable: 'Download 0.9.1',
+		stable: 'Download 0.9.2',
 		betaTitle: 'If Windows warns you', betaNote: 'Thunderop is not digitally signed yet, so Windows may warn you:',
 		betaStep1: 'If “Windows protected your PC” shows up, click “More info” and then “Run anyway”.',
 		betaStep2: 'If Windows Defender deletes it, open Windows Security → Virus & threat protection → Protection history, pick Thunderop and click “Restore”.'
@@ -135,7 +135,7 @@ const es: Messages = {
 		body: 'Por ahora Thunderop se comparte por invitación. Ingresá el código que te pasaron para bajar el instalador; después se actualiza solo.',
 		status: 'Solo con invitación', close: 'Descargar instalador', dismiss: 'Cerrar información de descarga',
 		code: 'Código de invitación', checking: 'Revisando…', wrong: 'Ese código no es correcto. Pedíselo a quien te invitó.', failed: 'No se pudo revisar el código. Probá de nuevo.', tooMany: 'Demasiados intentos, esperá un minuto.',
-		stable: 'Descargar 0.9.1',
+		stable: 'Descargar 0.9.2',
 		betaTitle: 'Si Windows te avisa', betaNote: 'Thunderop todavía no tiene firma digital, así que Windows puede avisarte:',
 		betaStep1: 'Si aparece «Windows protegió su PC», tocá «Más información» y después «Ejecutar de todas formas».',
 		betaStep2: 'Si Windows Defender la borra, abrí Seguridad de Windows → Protección contra virus y amenazas → Historial de protección, elegí Thunderop y tocá «Restaurar».'
